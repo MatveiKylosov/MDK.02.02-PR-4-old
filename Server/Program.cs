@@ -51,7 +51,7 @@ namespace Server
 
         public static void StartServer()
         {
-            IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, Port);
+            IPEndPoint endPoint = new IPEndPoint(IpAddress, Port);
             Socket sListener = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             sListener.Bind(endPoint);
             sListener.Listen(10);
