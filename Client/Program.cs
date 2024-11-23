@@ -80,7 +80,7 @@ namespace Client
         {
             try
             {
-                IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, Port);
+                IPEndPoint endPoint = new IPEndPoint(IpAddress, Port);
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.Connect(endPoint);
 
