@@ -11,6 +11,7 @@ using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Client
 {
@@ -177,6 +178,22 @@ namespace Client
 
         static void Main(string[] args)
         {
+            Console.Write("Введите IP адрес сервера: ");
+            string sIpAddress = Console.ReadLine();
+
+            Console.Write("Введите порт: ");
+            string sPort = Console.ReadLine();
+
+            if(int.TryParse(sPort, out Port) && IPAddress.TryParse(sIpAddress, out IpAddress))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Данные успешно введены. Подключаюсь к сервер.");
+
+                while (true) 
+                {
+                    ConnectServer();
+                }
+            }
         }
     }
 }
