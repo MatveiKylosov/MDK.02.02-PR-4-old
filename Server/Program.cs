@@ -195,6 +195,19 @@ namespace Server
 
         static void Main(string[] args)
         {
+            Users.Add(new User("kylosov", "Asdfg123", @"C:\Trash"));
+            Console.Write("Введите IP адрес сервер: ");
+            string sIpAddress = Console.ReadLine();
+            Console.Write("Введите порт: ");
+            string sPort = Console.ReadLine();
+            if (int.TryParse(sPort, out Port) && IPAddress.TryParse(sIpAddress, out IpAddress))
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Данные успешнно введены. Сервер запускается.");
+                StartServer();
+            }
+
+            Console.Read();
         }
     }
 }
