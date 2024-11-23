@@ -1,0 +1,25 @@
+﻿<Page x:Class="ClientWPF.Pages.Login"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ClientWPF.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel Background="White">
+        <TextBlock Text="Login:" FontSize="16px" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,20,20,0"/>
+        <TextBox  FontSize="16px" Margin="20,20,20, 0" x:Name="LoginTB"/>
+
+        <TextBlock Text="Password:" FontSize="16px" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,20,20,0"/>
+        <PasswordBox FontSize="16px" Margin="20,20,20, 0" x:Name="PasswordTB"/>
+
+        <TextBlock Text="IP:" FontSize="16px" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,20,20,0"/>
+        <TextBox  FontSize="16px" Margin="20,20,20, 0" x:Name="IPTB"/>
+
+
+        <TextBlock Text="Port:" FontSize="16px" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20,20,20,0"/>
+        <TextBox  FontSize="16px" Margin="20,20,20, 0" x:Name="PortTB"/>
+
+        <Button Content="Подключиться" FontSize="16px" Margin="20,20,20,0" Click="Connection"/>
+    </StackPanel>
+</Page>
