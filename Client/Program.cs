@@ -29,7 +29,7 @@ namespace Client
             if (DataMessage.Length > 0)
             {
                 string Command = DataMessage[0];
-                if (Command == "conncet")
+                if (Command == "connect")
                 {
                     if (DataMessage.Length != 3)
                     {

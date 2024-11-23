@@ -106,7 +106,7 @@ namespace Server
                                 else
                                 {
                                     string cdFolder = "";
-                                    for (int i = 0; i < DataMessage.Length; i++)
+                                    for (int i = 1; i < DataMessage.Length; i++)
                                     {
                                         if (cdFolder == "")
                                         {
@@ -145,7 +145,7 @@ namespace Server
                             {
                                 string[] DataMessage = ViewModelSend.Message.Split(new string[1] { " " }, StringSplitOptions.None);
                                 string getFile = "";
-                                for (int i = 0; i < DataMessage.Length; i++)
+                                for (int i = 1; i < DataMessage.Length; i++)
                                 {
                                     if (getFile == "")
                                     {
@@ -157,7 +157,7 @@ namespace Server
                                     }
                                 }
 
-                                byte[] byteFile = File.ReadAllBytes(Users[ViewModelSend.Id].temp_src + getFile);
+                                byte[] byteFile = File.ReadAllBytes(Users[ViewModelSend.Id].temp_src + (getFile[0] != '\\' ? "\\" + getFile : getFile));
                                 viewModelMessage = new ViewModelMessage("file", JsonConvert.SerializeObject(byteFile));
                             }
                             else
