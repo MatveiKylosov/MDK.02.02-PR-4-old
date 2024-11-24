@@ -31,6 +31,8 @@ namespace ClientWPF
         {
             InitializeComponent();
             mainWindow = this;
+
+            Frame.Navigate(new Pages.FTPPage());
         }
     }
 }

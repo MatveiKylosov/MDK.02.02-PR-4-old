@@ -32,7 +32,9 @@
             <Button Content="Перейти" Margin="10" FontSize="16px" Padding="5" Click="ChangeDirectory_Client"/>
         </StackPanel>
 
-        <StackPanel Margin="10" x:Name="Server" Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-        <StackPanel Margin="10" x:Name="Client" Grid.Column="1" Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <StackPanel Margin="10" x:Name="ServerParent" Grid.Row="2" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        <ScrollViewer Grid.Column="1" Grid.Row="2" >
+            <StackPanel Margin="10" x:Name="ClientParent" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+        </ScrollViewer>
     </Grid>
 </Page>

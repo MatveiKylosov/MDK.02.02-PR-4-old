@@ -35,7 +35,7 @@ namespace Server
                 foreach (string dir in dirs)
                 {
                     string NameDirectory = dir.Replace(src, "");
-                    FoldersFiles.Add(NameDirectory + "/");
+                    FoldersFiles.Add(NameDirectory + "\\");
                 }
 
                 string[] files = Directory.GetFiles(src);
