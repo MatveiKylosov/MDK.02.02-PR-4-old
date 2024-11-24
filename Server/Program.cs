@@ -119,7 +119,7 @@ namespace Server
                                         }
                                     }
 
-                                    Users[ViewModelSend.Id].temp_src = Users[ViewModelSend.Id].temp_src + cdFolder;
+                                    Users[ViewModelSend.Id].temp_src = Users[ViewModelSend.Id].temp_src + (cdFolder[0] != '\\' ? "\\" + cdFolder : cdFolder);
                                     FoldersFiles = GetDirectory(Users[ViewModelSend.Id].temp_src);
                                     DatabaseManager.AddUserCommand(Users[ViewModelSend.Id].id, ViewModelSend.Message);
                                 }

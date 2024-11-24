@@ -70,7 +70,7 @@ namespace ClientWPF.Elements
         {
             if (Fileb)
             {
-                //ToDo: отправка на сервер.
+                SendFileToServer(Path);
             }
             else
             {
@@ -86,7 +86,7 @@ namespace ClientWPF.Elements
             }
             else
             {
-                FTPPage.OpenDirectoryServer(Path);
+                FTPPage.OpenDirectoryServer(NameElement.Text);
             }
         }
 
@@ -139,12 +139,12 @@ namespace ClientWPF.Elements
                     MessageBox.Show("Неизвестный ответ от сервера.", "Ошибка");
                 }
                 socket.Close();
+                FTPPage.UpdateDir();
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Ошибка при отправке файла: {ex.Message}", "Ошибка");
             }
         }
-
     }
 }

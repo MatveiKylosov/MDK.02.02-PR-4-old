@@ -37,7 +37,7 @@ namespace ClientWPF.Pages
 
         private void ChangeDirectory_Server(object sender, RoutedEventArgs e)
         {
-            OpenDirectoryServer(ServerDirectory.Text);
+            OpenDirectoryServer();
         }
 
         private void ChangeDirectory_Client(object sender, RoutedEventArgs e)
@@ -94,12 +94,10 @@ namespace ClientWPF.Pages
 
         public void OpenDirectoryServer(string dir = "")
         {
-
             try
             {
                 ServerParent.Children.Clear();
-                ServerDirectory.Text = dir;
-                CurrentDirectoryServer = dir;
+                CurrentDirectoryServer = !string.IsNullOrEmpty(dir) ? CurrentDirectoryServer + "\\" + dir : dir;
 
                 var socket = MainWindow.mainWindow.ConnectToServer();
                 var userId = MainWindow.mainWindow.Id;
@@ -122,6 +120,7 @@ namespace ClientWPF.Pages
 
                 ViewModelMessage responseMessage = JsonConvert.DeserializeObject<ViewModelMessage>(serverResponse);
 
+                socket.Close();
                 if (responseMessage.Command == "cd")
                 {
                     List<string> directoryContents = JsonConvert.DeserializeObject<List<string>>(responseMessage.Data);
@@ -141,5 +140,52 @@ namespace ClientWPF.Pages
             }
         }
 
+
+        public void UpdateDir()
+        {
+            try
+            {
+                OpenDirectoryServer();
+                ServerParent.Children.Clear();
+
+                var socket = MainWindow.mainWindow.ConnectToServer();
+                var userId = MainWindow.mainWindow.Id;
+
+                if (socket == null)
+                {
+                    MessageBox.Show("Не удалось подключиться к серверу.", "Ошибка подключения");
+                    return;
+                }
+
+                string command = $"cd {CurrentDirectoryServer}";
+                ViewModelSend viewModelSend = new ViewModelSend(command, userId);
+
+                byte[] messageBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(viewModelSend));
+                socket.Send(messageBytes);
+
+                byte[] buffer = new byte[10485760];
+                int bytesReceived = socket.Receive(buffer);
+                string serverResponse = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
+
+                ViewModelMessage responseMessage = JsonConvert.DeserializeObject<ViewModelMessage>(serverResponse);
+                socket.Close();
+                if (responseMessage.Command == "cd")
+                {
+                    List<string> directoryContents = JsonConvert.DeserializeObject<List<string>>(responseMessage.Data);
+                    foreach (var x in directoryContents)
+                    {
+                        ServerParent.Children.Add(new Elements.ElementFTP($"{CurrentDirectoryServer}{x}", x, true, this));
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Не удалось перейти в указанную директорию. Либо она пустая либо не существует", "Ошибка");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при переходе по директориям: {ex.Message}", "Ошибка");
+            }
+        }
     }
 }

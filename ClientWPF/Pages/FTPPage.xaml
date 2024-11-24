@@ -23,8 +23,7 @@
         <TextBlock Text="Клиент" FontSize="16px" FontWeight="Bold" Margin="15" Grid.Column="1"/>
 
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-            <TextBox FontSize="16px" Margin="10" VerticalAlignment="Center" MinWidth="300px" x:Name="ServerDirectory"/>
-            <Button Content="Перейти" Margin="10" FontSize="16px" Padding="5" Click="ChangeDirectory_Server"/>
+            <Button Content="Вернуться в главную директорию" Margin="10" FontSize="16px" Padding="5" Click="ChangeDirectory_Server"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
