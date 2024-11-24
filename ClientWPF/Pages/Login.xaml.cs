@@ -45,17 +45,15 @@ namespace ClientWPF.Pages
                 return;
             }
 
-            IPEndPoint endPoint = new IPEndPoint(MainWindow.mainWindow.IpAddress, MainWindow.mainWindow.Port);
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            socket.Connect(endPoint);
+            var socket = MainWindow.mainWindow.ConnectToServer();
 
-            if(!ConnectToServer(socket, LoginTB.Text, PasswordTB.Password))
+            if( socket == null || !ConnectToServer(socket, LoginTB.Text, PasswordTB.Password))
             {
                 MessageBox.Show("Не удалось подключиться", "Ошибка");
             }
             else
             {
-                //ToDo: Open page with use main
+                MainWindow.mainWindow.OpenPages(new Pages.FTPPage());
             }
         }
 
@@ -79,12 +77,13 @@ namespace ClientWPF.Pages
 
                 // Десериализация ответа
                 ViewModelMessage viewModelMessage = JsonConvert.DeserializeObject<ViewModelMessage>(response);
-
+                socket.Close();
                 // Обработка команды авторизации
                 if (viewModelMessage.Command == "autorization")
                 {
                     int userId = int.Parse(viewModelMessage.Data); // ID пользователя
                                                                    //Program.Id = userId; // Сохранение ID в глобальной переменной
+                    MainWindow.mainWindow.Id = userId;
                     MessageBox.Show($"Успешная авторизация. Ваш ID: {userId}", "Успех");
                     return true;
                 }

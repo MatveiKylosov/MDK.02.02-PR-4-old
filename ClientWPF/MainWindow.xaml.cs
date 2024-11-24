@@ -1,8 +1,10 @@
 ﻿using ClientWPF.Pages;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,13 +28,39 @@ namespace ClientWPF
 
         public IPAddress IpAddress;
         public int Port;
+        public int Id = -1;
 
         public MainWindow()
         {
             InitializeComponent();
             mainWindow = this;
 
-            Frame.Navigate(new Pages.FTPPage());
+            OpenPages(new Pages.Login());
+        }
+
+        public Socket ConnectToServer()
+        {
+            IPEndPoint endPoint = new IPEndPoint(IpAddress, Port);
+            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            try
+            {
+                socket.Connect(endPoint);
+                if (socket.Connected)
+                {
+                    return socket;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"{ex.Message}", "Ошибка");
+                return null;
+            }
+        }
+
+        public void OpenPages(Page page)
+        {
+            Frame.Navigate(page);
         }
     }
 }
