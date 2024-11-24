@@ -189,5 +189,58 @@ namespace ClientWPF.Pages
                 MessageBox.Show($"Ошибка при переходе по директориям: {ex.Message}", "Ошибка");
             }
         }
+
+        public void DownloadFileFromServer(string serverFilePath)
+        {
+            try
+            {
+                var localSavePath = (CurrentDirectoryClient[0] != '\\' ? CurrentDirectoryClient + "\\" : CurrentDirectoryClient) + serverFilePath;
+                var socket = MainWindow.mainWindow.ConnectToServer();
+                var userId = MainWindow.mainWindow.Id;
+
+                // Проверяем подключение к серверу
+                if (socket == null)
+                {
+                    MessageBox.Show("Не удалось подключиться к серверу.", "Ошибка подключения");
+                    return;
+                }
+
+                // Формируем команду "get" для запроса файла
+                string command = $"get {serverFilePath}";
+                ViewModelSend viewModelSend = new ViewModelSend(command, userId);
+
+                // Сериализуем и отправляем запрос
+                byte[] messageBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(viewModelSend));
+                socket.Send(messageBytes);
+
+                // Получаем ответ от сервера
+                byte[] buffer = new byte[10485760]; // Буфер для получения файла
+                int bytesReceived = socket.Receive(buffer);
+                string serverResponse = Encoding.UTF8.GetString(buffer, 0, bytesReceived);
+
+                // Обрабатываем ответ сервера
+                ViewModelMessage responseMessage = JsonConvert.DeserializeObject<ViewModelMessage>(serverResponse);
+                socket.Close();
+
+                if (responseMessage.Command == "file")
+                {
+                    // Десериализуем данные файла
+                    byte[] fileData = JsonConvert.DeserializeObject<byte[]>(responseMessage.Data);
+
+                    // Сохраняем файл на локальной машине
+                    File.WriteAllBytes(localSavePath, fileData);
+                    OpenDirectoryClient(CurrentDirectoryClient);
+                    MessageBox.Show($"Файл успешно скачан и сохранён в: {localSavePath}", "Скачивание завершено");
+                }
+                else
+                {
+                    MessageBox.Show("Не удалось получить файл. Проверьте путь на сервере.", "Ошибка");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при скачивании файла: {ex.Message}", "Ошибка");
+            }
+        }
     }
 }

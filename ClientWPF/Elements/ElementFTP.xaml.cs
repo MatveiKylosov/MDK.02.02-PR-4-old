@@ -36,11 +36,11 @@ namespace ClientWPF.Elements
         {
             InitializeComponent();
             this.Path = path;
-
+            name = name.Replace("\\", "");
             if (path[path.Length -1] == '\\')
             {
                 FileIcon.Visibility = Visibility.Hidden;
-                name = name.Replace("\\", "");
+
             }
             else
             {
@@ -82,7 +82,7 @@ namespace ClientWPF.Elements
         {
             if (Fileb)
             {
-                //ToDo: отправка на сервер.
+                FTPPage.DownloadFileFromServer(NameElement.Text);
             }
             else
             {
@@ -147,5 +147,6 @@ namespace ClientWPF.Elements
                 MessageBox.Show($"Ошибка при отправке файла: {ex.Message}", "Ошибка");
             }
         }
+
     }
 }
