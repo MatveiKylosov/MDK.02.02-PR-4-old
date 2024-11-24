@@ -92,12 +92,14 @@ namespace ClientWPF.Pages
             }
         }
 
-        public void OpenDirectoryServer(string dir = "")
+        public void OpenDirectoryServer(string dir = "", bool update = false)
         {
             try
             {
                 ServerParent.Children.Clear();
-                CurrentDirectoryServer = !string.IsNullOrEmpty(dir) ? CurrentDirectoryServer + "\\" + dir : dir;
+
+                if(!update)
+                    CurrentDirectoryServer = !string.IsNullOrEmpty(dir) ? CurrentDirectoryServer + "\\" + dir : dir;
 
                 var socket = MainWindow.mainWindow.ConnectToServer();
                 var userId = MainWindow.mainWindow.Id;
@@ -145,7 +147,7 @@ namespace ClientWPF.Pages
         {
             try
             {
-                OpenDirectoryServer();
+                OpenDirectoryServer("", true);
                 ServerParent.Children.Clear();
 
                 var socket = MainWindow.mainWindow.ConnectToServer();

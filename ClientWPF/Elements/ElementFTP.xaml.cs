@@ -130,6 +130,9 @@ namespace ClientWPF.Elements
 
                 // Обрабатываем ответ сервера
                 ViewModelMessage responseMessage = JsonConvert.DeserializeObject<ViewModelMessage>(serverResponse);
+                socket.Close();
+                FTPPage.UpdateDir();
+
                 if (responseMessage.Command == "message")
                 {
                     MessageBox.Show(responseMessage.Data, "Ответ сервера");
@@ -138,8 +141,6 @@ namespace ClientWPF.Elements
                 {
                     MessageBox.Show("Неизвестный ответ от сервера.", "Ошибка");
                 }
-                socket.Close();
-                FTPPage.UpdateDir();
             }
             catch (Exception ex)
             {
